@@ -108,6 +108,7 @@ const baseSettings: AppSettings = {
   lastComposerModelId: null,
   lastComposerReasoningEffort: null,
   uiScale: 1,
+  locale: "en",
   theme: "system",
   usageShowRemaining: false,
   showMessageFilePath: true,

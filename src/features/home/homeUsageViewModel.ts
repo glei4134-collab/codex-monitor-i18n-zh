@@ -8,11 +8,9 @@ import { formatRelativeTime } from "../../utils/time";
 import { getUsageLabels } from "../app/utils/usageLabels";
 import {
   buildWindowCaption,
-  formatAccountTypeLabel,
   formatCompactNumber,
   formatCount,
   formatCreditsBalance,
-  formatDayCount,
   formatDayLabel,
   formatDuration,
   formatDurationCompact,
@@ -30,18 +28,22 @@ type HomeUsageViewModel = {
   usageInsights: HomeStatCard[];
 };
 
+type Translate = (key: string, params?: Record<string, string | number>) => string;
+
 export function buildHomeUsageViewModel({
   accountInfo,
   accountRateLimits,
   localUsageSnapshot,
   usageMetric,
   usageShowRemaining,
+  t,
 }: {
   accountInfo: AccountSnapshot | null;
   accountRateLimits: RateLimitSnapshot | null;
   localUsageSnapshot: LocalUsageSnapshot | null;
   usageMetric: UsageMetric;
   usageShowRemaining: boolean;
+  t: Translate;
 }): HomeUsageViewModel {
   const usageTotals = localUsageSnapshot?.totals ?? null;
   const usageDays = localUsageSnapshot?.days ?? [];
@@ -108,120 +110,151 @@ export function buildHomeUsageViewModel({
     usageMetric === "tokens"
       ? [
           {
-            label: "Today",
+            label: t("home.usage.card.today"),
             value: formatCompactNumber(latestUsageDay?.totalTokens ?? 0),
-            suffix: "tokens",
+            suffix: t("home.usage.suffix.tokens"),
             caption: latestUsageDay
-              ? `${formatDayLabel(latestUsageDay.day)} · ${formatCount(
-                  latestUsageDay.inputTokens,
-                )} in / ${formatCount(latestUsageDay.outputTokens)} out`
-              : "Latest available day",
+              ? t("home.usage.caption.todayBreakdown", {
+                  day: formatDayLabel(latestUsageDay.day),
+                  input: formatCount(latestUsageDay.inputTokens),
+                  output: formatCount(latestUsageDay.outputTokens),
+                })
+              : t("home.usage.caption.latestAvailableDay"),
           },
           {
-            label: "Last 7 days",
+            label: t("home.usage.card.last7Days"),
             value: formatCompactNumber(usageTotals?.last7DaysTokens ?? last7Tokens),
-            suffix: "tokens",
-            caption: `Avg ${formatCompactNumber(usageTotals?.averageDailyTokens)} / day`,
+            suffix: t("home.usage.suffix.tokens"),
+            caption: t("home.usage.caption.avgPerDay", {
+              value: formatCompactNumber(usageTotals?.averageDailyTokens),
+            }),
           },
           {
-            label: "Last 30 days",
+            label: t("home.usage.card.last30Days"),
             value: formatCompactNumber(usageTotals?.last30DaysTokens ?? last7Tokens),
-            suffix: "tokens",
-            caption: `Total ${formatCount(usageTotals?.last30DaysTokens ?? last7Tokens)}`,
+            suffix: t("home.usage.suffix.tokens"),
+            caption: t("home.usage.caption.total", {
+              value: formatCount(usageTotals?.last30DaysTokens ?? last7Tokens),
+            }),
           },
           {
-            label: "Cache hit rate",
-            value: usageTotals
-              ? `${usageTotals.cacheHitRatePercent.toFixed(1)}%`
-              : "--",
-            caption: "Last 7 days",
+            label: t("home.usage.card.cacheHitRate"),
+            value: usageTotals ? `${usageTotals.cacheHitRatePercent.toFixed(1)}%` : "--",
+            caption: t("home.usage.caption.last7Days"),
           },
           {
-            label: "Cached tokens",
+            label: t("home.usage.card.cachedTokens"),
             value: formatCompactNumber(last7Cached),
-            suffix: "saved",
+            suffix: t("home.usage.suffix.saved"),
             caption:
               last7Input > 0
-                ? `${((last7Cached / last7Input) * 100).toFixed(1)}% of prompt tokens`
-                : "Last 7 days",
+                ? t("home.usage.caption.promptTokensShare", {
+                    value: ((last7Cached / last7Input) * 100).toFixed(1),
+                  })
+                : t("home.usage.caption.last7Days"),
           },
           {
-            label: "Avg / run",
+            label: t("home.usage.card.avgPerRun"),
             value:
               averageTokensPerRun === null
                 ? "--"
                 : formatCompactNumber(averageTokensPerRun),
-            suffix: "tokens",
+            suffix: t("home.usage.suffix.tokens"),
             caption:
               last7AgentRuns > 0
-                ? `${formatCount(last7AgentRuns)} runs in last 7 days`
-                : "No runs yet",
+                ? t("home.usage.caption.runsInLast7", {
+                    count: formatCount(last7AgentRuns),
+                  })
+                : t("home.usage.caption.noRunsYet"),
           },
           {
-            label: "Peak day",
+            label: t("home.usage.card.peakDay"),
             value: formatDayLabel(usageTotals?.peakDay),
-            caption: `${formatCompactNumber(usageTotals?.peakDayTokens)} tokens`,
+            caption: t("home.usage.caption.total", {
+              value: `${formatCompactNumber(usageTotals?.peakDayTokens)} ${t("home.usage.suffix.tokens")}`,
+            }),
           },
         ]
       : [
           {
-            label: "Last 7 days",
+            label: t("home.usage.card.last7Days"),
             value: formatDurationCompact(last7AgentMs),
-            suffix: "agent time",
-            caption: `Avg ${formatDurationCompact(averageDailyAgentMs)} / day`,
+            suffix: t("home.usage.suffix.agentTime"),
+            caption: t("home.usage.caption.avgPerDay", {
+              value: formatDurationCompact(averageDailyAgentMs),
+            }),
           },
           {
-            label: "Last 30 days",
+            label: t("home.usage.card.last30Days"),
             value: formatDurationCompact(last30AgentMs),
-            suffix: "agent time",
-            caption: `Total ${formatDuration(last30AgentMs)}`,
+            suffix: t("home.usage.suffix.agentTime"),
+            caption: t("home.usage.caption.total", {
+              value: formatDuration(last30AgentMs),
+            }),
           },
           {
-            label: "Runs",
+            label: t("home.usage.card.runs"),
             value: formatCount(last7AgentRuns),
-            suffix: "runs",
-            caption: `Last 30 days: ${formatCount(last30AgentRuns)} runs`,
+            suffix: t("home.usage.suffix.runs"),
+            caption: t("home.usage.caption.last30Runs", {
+              count: formatCount(last30AgentRuns),
+            }),
           },
           {
-            label: "Avg / run",
+            label: t("home.usage.card.avgPerRun"),
             value: formatDurationCompact(averageRunDurationMs),
             caption:
               last7AgentRuns > 0
-                ? `Across ${formatCount(last7AgentRuns)} runs`
-                : "No runs yet",
+                ? t("home.usage.caption.acrossRuns", {
+                    count: formatCount(last7AgentRuns),
+                  })
+                : t("home.usage.caption.noRunsYet"),
           },
           {
-            label: "Avg / active day",
+            label: t("home.usage.card.avgPerActiveDay"),
             value: formatDurationCompact(averageActiveDayAgentMs),
             caption:
               last7ActiveDays > 0
-                ? `${formatCount(last7ActiveDays)} active days in last 7`
-                : "No active days yet",
+                ? t("home.usage.caption.activeDaysInLast7", {
+                    count: formatCount(last7ActiveDays),
+                  })
+                : t("home.usage.caption.noActiveDaysYet"),
           },
           {
-            label: "Peak day",
+            label: t("home.usage.card.peakDay"),
             value: formatDayLabel(peakAgentDay?.day ?? null),
-            caption: `${formatDurationCompact(peakAgentDay?.agentTimeMs ?? 0)} agent time`,
+            caption: `${formatDurationCompact(peakAgentDay?.agentTimeMs ?? 0)} ${t("home.usage.suffix.agentTime")}`,
           },
         ];
 
   const usageInsights = [
     {
-      label: "Longest streak",
-      value: longestStreak > 0 ? formatDayCount(longestStreak) : "--",
+      label: t("home.usage.card.longestStreak"),
+      value:
+        longestStreak > 0
+          ? t(
+              longestStreak === 1
+                ? "home.usage.dayCount.one"
+                : "home.usage.dayCount.other",
+              { count: longestStreak },
+            )
+          : "--",
       caption:
         longestStreak > 0
-          ? "Across current usage range"
-          : "No active streak yet",
+          ? t("home.usage.caption.currentRange")
+          : t("home.usage.caption.noActiveStreakYet"),
       compact: true,
     },
     {
-      label: "Active days",
+      label: t("home.usage.card.activeDays"),
       value: last7Days.length > 0 ? `${last7ActiveDays} / ${last7Days.length}` : "--",
       caption:
         usageDays.length > 0
-          ? `${last30ActiveDays} / ${usageDays.length} in current range`
-          : "No activity yet",
+          ? t("home.usage.caption.inCurrentRange", {
+              count: last30ActiveDays,
+              total: usageDays.length,
+            })
+          : t("home.usage.caption.noActivityYet"),
       compact: true,
     },
   ] satisfies HomeStatCard[];
@@ -233,24 +266,28 @@ export function buildHomeUsageViewModel({
 
   if (usagePercentLabels.sessionPercent !== null) {
     accountCards.push({
-      label: usageShowRemaining ? "Session left" : "Session usage",
+      label: usageShowRemaining
+        ? t("home.usage.card.sessionLeft")
+        : t("home.usage.card.sessionUsage"),
       value: `${usagePercentLabels.sessionPercent}%`,
       caption: buildWindowCaption(
         usagePercentLabels.sessionResetLabel,
         accountRateLimits?.primary?.windowDurationMins,
-        "Current window",
+        t("home.usage.caption.currentWindow"),
       ),
     });
   }
 
   if (usagePercentLabels.showWeekly && usagePercentLabels.weeklyPercent !== null) {
     accountCards.push({
-      label: usageShowRemaining ? "Weekly left" : "Weekly usage",
+      label: usageShowRemaining
+        ? t("home.usage.card.weeklyLeft")
+        : t("home.usage.card.weeklyUsage"),
       value: `${usagePercentLabels.weeklyPercent}%`,
       caption: buildWindowCaption(
         usagePercentLabels.weeklyResetLabel,
         accountRateLimits?.secondary?.windowDurationMins,
-        "Longer window",
+        t("home.usage.caption.longerWindow"),
       ),
     });
   }
@@ -259,24 +296,29 @@ export function buildHomeUsageViewModel({
     accountCards.push(
       accountRateLimits.credits.unlimited
         ? {
-            label: "Credits",
-            value: "Unlimited",
-            caption: "Available balance",
+            label: t("home.usage.card.credits"),
+            value: t("home.usage.unlimited"),
+            caption: t("home.usage.caption.availableBalance"),
           }
         : {
-            label: "Credits",
+            label: t("home.usage.card.credits"),
             value: creditsBalance ?? "--",
-            suffix: creditsBalance ? "credits" : null,
-            caption: "Available balance",
+            suffix: creditsBalance ? t("home.usage.suffix.credits") : null,
+            caption: t("home.usage.caption.availableBalance"),
           },
     );
   }
 
   if (planLabel) {
     accountCards.push({
-      label: "Plan",
+      label: t("home.usage.card.plan"),
       value: planLabel,
-      caption: formatAccountTypeLabel(accountInfo?.type),
+      caption:
+        accountInfo?.type === "chatgpt"
+          ? t("home.usage.accountType.chatgpt")
+          : accountInfo?.type === "apikey"
+            ? t("home.usage.accountType.apikey")
+            : t("home.usage.accountType.connected"),
     });
   }
 
@@ -284,7 +326,9 @@ export function buildHomeUsageViewModel({
     accountCards,
     accountMeta: accountInfo?.email ?? null,
     updatedLabel: localUsageSnapshot
-      ? `Updated ${formatRelativeTime(localUsageSnapshot.updatedAt)}`
+      ? t("home.usage.updated", {
+          value: formatRelativeTime(localUsageSnapshot.updatedAt),
+        })
       : null,
     usageCards,
     usageDays,

@@ -6,6 +6,7 @@ import type {
 import { HomeActions } from "./HomeActions";
 import { HomeLatestAgentsSection } from "./HomeLatestAgentsSection";
 import { HomeUsageSection } from "./HomeUsageSection";
+import { useI18n } from "@/i18n/I18nProvider";
 import type {
   LatestAgentRun,
   UsageMetric,
@@ -51,12 +52,14 @@ export function Home({
   accountInfo,
   onSelectThread,
 }: HomeProps) {
+  const { t } = useI18n();
+
   return (
     <div className="home">
       <div className="home-hero">
-        <div className="home-title">Codex Monitor</div>
+        <div className="home-title">{t("home.hero.title")}</div>
         <div className="home-subtitle">
-          Orchestrate agents across your local projects.
+          {t("home.hero.subtitle")}
         </div>
       </div>
       <HomeLatestAgentsSection

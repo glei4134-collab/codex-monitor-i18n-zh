@@ -21,6 +21,7 @@ import { isMobilePlatform } from "@utils/platformPaths";
 import { DEFAULT_COMMIT_MESSAGE_PROMPT } from "@utils/commitMessagePrompt";
 
 const allowedThemes = new Set(["system", "light", "dark", "dim"]);
+const allowedLocales = new Set(["en", "zh-CN"]);
 const allowedPersonality = new Set(["friendly", "pragmatic"]);
 const allowedFollowUpMessageBehavior = new Set(["queue", "steer"]);
 const DEFAULT_REMOTE_BACKEND_HOST = "127.0.0.1:4732";
@@ -166,6 +167,7 @@ function buildDefaultSettings(): AppSettings {
     lastComposerModelId: null,
     lastComposerReasoningEffort: null,
     uiScale: UI_SCALE_DEFAULT,
+    locale: "en",
     theme: "system",
     usageShowRemaining: false,
     showMessageFilePath: true,
@@ -246,6 +248,7 @@ function normalizeAppSettings(settings: AppSettings): AppSettings {
     codexBin: settings.codexBin?.trim() ? settings.codexBin.trim() : null,
     codexArgs: settings.codexArgs?.trim() ? settings.codexArgs.trim() : null,
     uiScale: clampUiScale(settings.uiScale),
+    locale: allowedLocales.has(settings.locale) ? settings.locale : "en",
     theme: allowedThemes.has(settings.theme) ? settings.theme : "system",
     uiFontFamily: normalizeFontFamily(
       settings.uiFontFamily,

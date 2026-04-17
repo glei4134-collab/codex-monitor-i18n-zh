@@ -12,6 +12,7 @@ import ServerCog from "lucide-react/dist/esm/icons/server-cog";
 import Bot from "lucide-react/dist/esm/icons/bot";
 import Info from "lucide-react/dist/esm/icons/info";
 import { PanelNavItem, PanelNavList } from "@/features/design-system/components/panel/PanelPrimitives";
+import { useI18n } from "@/i18n/I18nProvider";
 import type { CodexSection } from "./settingsTypes";
 
 type SettingsNavProps = {
@@ -25,6 +26,10 @@ export function SettingsNav({
   onSelectSection,
   showDisclosure = false,
 }: SettingsNavProps) {
+  const { t } = useI18n();
+
+  const sectionLabel = (section: CodexSection) => t(`settings.nav.${section}`);
+
   return (
     <aside className="settings-sidebar">
       <PanelNavList className="settings-nav-list">
@@ -35,7 +40,7 @@ export function SettingsNav({
           showDisclosure={showDisclosure}
           onClick={() => onSelectSection("projects")}
         >
-          Projects
+          {sectionLabel("projects")}
         </PanelNavItem>
         <PanelNavItem
           className="settings-nav"
@@ -44,7 +49,7 @@ export function SettingsNav({
           showDisclosure={showDisclosure}
           onClick={() => onSelectSection("environments")}
         >
-          Environments
+          {sectionLabel("environments")}
         </PanelNavItem>
         <PanelNavItem
           className="settings-nav"
@@ -53,7 +58,7 @@ export function SettingsNav({
           showDisclosure={showDisclosure}
           onClick={() => onSelectSection("display")}
         >
-          Display &amp; Sound
+          {sectionLabel("display")}
         </PanelNavItem>
         <PanelNavItem
           className="settings-nav"
@@ -62,7 +67,7 @@ export function SettingsNav({
           showDisclosure={showDisclosure}
           onClick={() => onSelectSection("composer")}
         >
-          Composer
+          {sectionLabel("composer")}
         </PanelNavItem>
         <PanelNavItem
           className="settings-nav"
@@ -71,7 +76,7 @@ export function SettingsNav({
           showDisclosure={showDisclosure}
           onClick={() => onSelectSection("dictation")}
         >
-          Dictation
+          {sectionLabel("dictation")}
         </PanelNavItem>
         <PanelNavItem
           className="settings-nav"
@@ -80,7 +85,7 @@ export function SettingsNav({
           showDisclosure={showDisclosure}
           onClick={() => onSelectSection("shortcuts")}
         >
-          Shortcuts
+          {sectionLabel("shortcuts")}
         </PanelNavItem>
         <PanelNavItem
           className="settings-nav"
@@ -89,7 +94,7 @@ export function SettingsNav({
           showDisclosure={showDisclosure}
           onClick={() => onSelectSection("open-apps")}
         >
-          Open in
+          {sectionLabel("open-apps")}
         </PanelNavItem>
         <PanelNavItem
           className="settings-nav"
@@ -98,7 +103,7 @@ export function SettingsNav({
           showDisclosure={showDisclosure}
           onClick={() => onSelectSection("git")}
         >
-          Git
+          {sectionLabel("git")}
         </PanelNavItem>
         <PanelNavItem
           className="settings-nav"
@@ -107,7 +112,7 @@ export function SettingsNav({
           showDisclosure={showDisclosure}
           onClick={() => onSelectSection("server")}
         >
-          Server
+          {sectionLabel("server")}
         </PanelNavItem>
         <PanelNavItem
           className="settings-nav"
@@ -116,7 +121,7 @@ export function SettingsNav({
           showDisclosure={showDisclosure}
           onClick={() => onSelectSection("agents")}
         >
-          Agents
+          {sectionLabel("agents")}
         </PanelNavItem>
         <PanelNavItem
           className="settings-nav"
@@ -125,7 +130,7 @@ export function SettingsNav({
           showDisclosure={showDisclosure}
           onClick={() => onSelectSection("codex")}
         >
-          Codex
+          {sectionLabel("codex")}
         </PanelNavItem>
         <PanelNavItem
           className="settings-nav"
@@ -134,7 +139,7 @@ export function SettingsNav({
           showDisclosure={showDisclosure}
           onClick={() => onSelectSection("features")}
         >
-          Features
+          {sectionLabel("features")}
         </PanelNavItem>
         <PanelNavItem
           className="settings-nav"
@@ -143,7 +148,7 @@ export function SettingsNav({
           showDisclosure={showDisclosure}
           onClick={() => onSelectSection("about")}
         >
-          About
+          {sectionLabel("about")}
         </PanelNavItem>
       </PanelNavList>
     </aside>

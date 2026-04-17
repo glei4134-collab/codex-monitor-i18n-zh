@@ -197,6 +197,7 @@ export type AccessMode = "read-only" | "current" | "full-access";
 export type ServiceTier = "fast" | "flex";
 export type BackendMode = "local" | "remote";
 export type RemoteBackendProvider = "tcp";
+export type AppLocale = "en" | "zh-CN";
 export type RemoteBackendTarget = {
   id: string;
   name: string;
@@ -268,6 +269,7 @@ export type AppSettings = {
   lastComposerModelId: string | null;
   lastComposerReasoningEffort: string | null;
   uiScale: number;
+  locale: AppLocale;
   theme: ThemePreference;
   usageShowRemaining: boolean;
   showMessageFilePath: boolean;
