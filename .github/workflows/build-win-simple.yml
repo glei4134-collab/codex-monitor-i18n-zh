@@ -24,7 +24,7 @@ jobs:
           echo "LIBCLANG_PATH=C:\Program Files\LLVM\bin" >> $env:GITHUB_ENV
 
       - name: Build Tauri
-        run: npm run tauri build
+        run: npm run tauri build -- --no-bundle
 
       - name: Find exe files
         run: Get-ChildItem -Path src-tauri/target/release -Filter "*.exe" -Recurse | Select-Object FullName, Length
