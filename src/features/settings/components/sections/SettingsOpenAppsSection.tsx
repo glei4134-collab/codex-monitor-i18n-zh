@@ -2,6 +2,7 @@ import ChevronDown from "lucide-react/dist/esm/icons/chevron-down";
 import ChevronUp from "lucide-react/dist/esm/icons/chevron-up";
 import Trash2 from "lucide-react/dist/esm/icons/trash-2";
 import { SettingsSection } from "@/features/design-system/components/settings/SettingsPrimitives";
+import { useI18n } from "@/i18n/I18nProvider";
 import type { OpenAppTarget } from "@/types";
 import {
   fileManagerName,
@@ -40,10 +41,11 @@ export function SettingsOpenAppsSection({
   onAddOpenApp,
   onSelectOpenAppDefault,
 }: SettingsOpenAppsSectionProps) {
+  const { t } = useI18n();
   return (
     <SettingsSection
-      title="Open in"
-      subtitle="Customize the Open in menu shown in the title bar and file previews."
+      title={t("settings.openApps.title")}
+      subtitle={t("settings.openApps.subtitle")}
     >
       <div className="settings-open-apps">
         {openAppDrafts.map((target, index) => {

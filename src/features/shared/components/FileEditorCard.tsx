@@ -1,6 +1,7 @@
-import type { ReactNode } from "react";
+import { type ReactNode } from "react";
 import RefreshCw from "lucide-react/dist/esm/icons/refresh-cw";
 import Save from "lucide-react/dist/esm/icons/save";
+import { useI18n } from "@/i18n/I18nProvider";
 
 type FileEditorCardClassNames = {
   container: string;
@@ -47,6 +48,7 @@ export function FileEditorCard({
   onSave,
   classNames,
 }: FileEditorCardProps) {
+  const { t } = useI18n();
   return (
     <div className={classNames.container}>
       <div className={classNames.header}>
@@ -59,7 +61,7 @@ export function FileEditorCard({
             onClick={onRefresh}
             disabled={refreshDisabled}
             aria-label={`Refresh ${title}`}
-            title="Refresh"
+            title={t("fileEditor.refresh")}
           >
             <RefreshCw aria-hidden />
           </button>

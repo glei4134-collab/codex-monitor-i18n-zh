@@ -7,6 +7,7 @@ import {
   SettingsSubsection,
 } from "@/features/design-system/components/settings/SettingsPrimitives";
 import type { WorkspaceGroup, WorkspaceInfo } from "@/types";
+                                                                                                     import { useI18n } from "@/i18n/I18nProvider";
 
 type GroupedWorkspaces = Array<{
   id: string | null;
@@ -57,10 +58,11 @@ export function SettingsProjectsSection({
   onMoveWorkspace,
   onDeleteWorkspace,
 }: SettingsProjectsSectionProps) {
+  const { t } = useI18n();
   return (
     <SettingsSection
-      title="Projects"
-      subtitle="Group related workspaces and reorder projects within each group."
+      title={t("settings.projects.title")}
+      subtitle={t("settings.projects.subtitle")}
     >
       <SettingsSubsection
         title="Groups"

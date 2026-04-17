@@ -28,6 +28,7 @@ import type {
 import { computeDictationInsertion } from "../../../utils/dictation";
 import { isComposingEvent } from "../../../utils/keys";
 import { FileEditorCard } from "../../shared/components/FileEditorCard";
+import { useI18n } from "@/i18n/I18nProvider";
 import { WorkspaceHomeRunControls } from "./WorkspaceHomeRunControls";
 import { WorkspaceHomeHistory } from "./WorkspaceHomeHistory";
 import { WorkspaceHomeGitInitBanner } from "./WorkspaceHomeGitInitBanner";
@@ -346,6 +347,7 @@ export function WorkspaceHome({
   const agentMdSaveLabel = agentMdExists ? "Save" : "Create";
   const agentMdSaveDisabled = agentMdLoading || agentMdSaving || !agentMdDirty;
   const agentMdRefreshDisabled = agentMdLoading || agentMdSaving;
+  const { t } = useI18n();
 
   return (
     <div className="workspace-home">
@@ -444,11 +446,11 @@ export function WorkspaceHome({
           </div>
         )}
         <FileEditorCard
-          title="AGENTS.md"
+          title={t("workspace.agentsMd.title")}
           meta={agentMdMeta}
           error={agentMdError}
           value={agentMdContent}
-          placeholder="Add workspace instructions for the agent…"
+          placeholder={t("workspace.agentsMd.placeholder")}
           disabled={agentMdLoading}
           refreshDisabled={agentMdRefreshDisabled}
           saveDisabled={agentMdSaveDisabled}

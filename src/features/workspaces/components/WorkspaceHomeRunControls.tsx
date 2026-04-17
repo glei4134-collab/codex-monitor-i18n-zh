@@ -1,5 +1,6 @@
 import { useCallback } from "react";
 import type { ModelOption, WorkspaceInfo } from "../../../types";
+import { useI18n } from "@/i18n/I18nProvider";
 import type { WorkspaceRunMode } from "../hooks/useWorkspaceHome";
 import Laptop from "lucide-react/dist/esm/icons/laptop";
 import GitBranch from "lucide-react/dist/esm/icons/git-branch";
@@ -56,6 +57,7 @@ export function WorkspaceHomeRunControls({
   reasoningSupported,
   isSubmitting,
 }: WorkspaceHomeRunControlsProps) {
+  const { t } = useI18n();
   const runModeMenu = useMenuController();
   const modelsMenu = useMenuController();
   const {
@@ -100,7 +102,7 @@ export function WorkspaceHomeRunControls({
               type="button"
               className="ghost open-app-action"
               onClick={toggleRunModeMenu}
-              aria-label="Select run mode"
+              aria-label={t("workspace.runMode.label")}
               data-tauri-drag-region="false"
             >
               <span className="open-app-label">
@@ -153,7 +155,7 @@ export function WorkspaceHomeRunControls({
             type="button"
             className="ghost open-app-action"
             onClick={toggleModelsMenu}
-            aria-label="Select models"
+            aria-label={t("workspace.models.label")}
             data-tauri-drag-region="false"
           >
             <span className="open-app-label">
@@ -244,7 +246,7 @@ export function WorkspaceHomeRunControls({
             </span>
             <select
               className="composer-select composer-select--model"
-              aria-label="Collaboration mode"
+              aria-label={t("workspace.collaboration.label")}
               value={selectedCollaborationModeId ?? ""}
               onChange={(event) => onSelectCollaborationMode(event.target.value || null)}
               disabled={isSubmitting}
@@ -290,7 +292,7 @@ export function WorkspaceHomeRunControls({
           </span>
           <select
             className="composer-select composer-select--effort"
-            aria-label="Thinking mode"
+            aria-label={t("workspace.thinking.label")}
             value={selectedEffort ?? ""}
             onChange={(event) => onSelectEffort(event.target.value)}
             disabled={isSubmitting || !reasoningSupported}

@@ -5,6 +5,7 @@ import {
 } from "@/features/design-system/components/settings/SettingsPrimitives";
 import { formatShortcut, getDefaultInterruptShortcut } from "@utils/shortcuts";
 import { isMacPlatform } from "@utils/platformPaths";
+import { useI18n } from "@/i18n/I18nProvider";
 import type {
   ShortcutDraftKey,
   ShortcutDrafts,
@@ -76,6 +77,7 @@ export function SettingsShortcutsSection({
   onShortcutKeyDown,
   onClearShortcut,
 }: SettingsShortcutsSectionProps) {
+  const { t } = useI18n();
   const isMac = isMacPlatform();
   const [searchQuery, setSearchQuery] = useState("");
 
@@ -235,8 +237,8 @@ export function SettingsShortcutsSection({
 
   return (
     <SettingsSection
-      title="Shortcuts"
-      subtitle="Customize keyboard shortcuts for file actions, composer, panels, and navigation."
+      title={t("settings.shortcuts.title")}
+      subtitle={t("settings.shortcuts.subtitle")}
     >
       <div className="settings-field settings-shortcuts-search">
         <label className="settings-field-label" htmlFor="settings-shortcuts-search">

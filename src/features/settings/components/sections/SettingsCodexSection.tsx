@@ -12,6 +12,7 @@ import {
   SettingsToggleRow,
 } from "@/features/design-system/components/settings/SettingsPrimitives";
 import { FileEditorCard } from "@/features/shared/components/FileEditorCard";
+import { useI18n } from "@/i18n/I18nProvider";
 
 type SettingsCodexSectionProps = {
   appSettings: AppSettings;
@@ -146,6 +147,7 @@ export function SettingsCodexSection({
   onRefreshGlobalConfig,
   onSaveGlobalConfig,
 }: SettingsCodexSectionProps) {
+  const { t } = useI18n();
   const latestModelSlug = defaultModels[0]?.model ?? null;
   const savedModelSlug = useMemo(
     () => coerceSavedModelSlug(appSettings.lastComposerModelId, defaultModels),
@@ -229,8 +231,8 @@ export function SettingsCodexSection({
 
   return (
     <SettingsSection
-      title="Codex"
-      subtitle="Configure the Codex CLI used by CodexMonitor and validate the install."
+      title={t("settings.codex.title")}
+      subtitle={t("settings.codex.subtitle")}
     >
       <div className="settings-field">
         <label className="settings-field-label" htmlFor="codex-path">

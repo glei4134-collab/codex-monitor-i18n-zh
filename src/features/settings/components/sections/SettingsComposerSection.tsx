@@ -4,6 +4,7 @@ import {
   SettingsToggleRow,
   SettingsToggleSwitch,
 } from "@/features/design-system/components/settings/SettingsPrimitives";
+import { useI18n } from "@/i18n/I18nProvider";
 
 type ComposerPreset = AppSettings["composerEditorPreset"];
 
@@ -24,11 +25,12 @@ export function SettingsComposerSection({
   onComposerPresetChange,
   onUpdateAppSettings,
 }: SettingsComposerSectionProps) {
+  const { t } = useI18n();
   const steerUnavailable = !appSettings.steerEnabled;
   return (
     <SettingsSection
-      title="Composer"
-      subtitle="Control helpers and formatting behavior inside the message editor."
+      title={t("settings.composer.title")}
+      subtitle={t("settings.composer.subtitle")}
     >
       <div className="settings-field">
         <div className="settings-field-label">Follow-up behavior</div>

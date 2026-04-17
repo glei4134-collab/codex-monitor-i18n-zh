@@ -4,6 +4,7 @@ import {
   SettingsToggleRow,
   SettingsToggleSwitch,
 } from "@/features/design-system/components/settings/SettingsPrimitives";
+import { useI18n } from "@/i18n/I18nProvider";
 
 type SettingsGitSectionProps = {
   appSettings: AppSettings;
@@ -28,10 +29,11 @@ export function SettingsGitSection({
   onSaveCommitMessagePrompt,
   onResetCommitMessagePrompt,
 }: SettingsGitSectionProps) {
+  const { t } = useI18n();
   return (
     <SettingsSection
-      title="Git"
-      subtitle="Manage how diffs are loaded in the Git sidebar."
+      title={t("settings.git.title")}
+      subtitle={t("settings.git.subtitle")}
     >
       <SettingsToggleRow
         title="Preload git diffs"

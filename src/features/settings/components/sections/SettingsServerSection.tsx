@@ -8,6 +8,7 @@ import type {
   TcpDaemonStatus,
 } from "@/types";
 import { ModalShell } from "@/features/design-system/components/modal/ModalShell";
+import { useI18n } from "@/i18n/I18nProvider";
 import {
   SettingsSection,
   SettingsToggleRow,
@@ -107,6 +108,7 @@ export function SettingsServerSection({
   onTcpDaemonStatus,
   onMobileConnectTest,
 }: SettingsServerSectionProps) {
+  const { t } = useI18n();
   const [pendingDeleteRemoteId, setPendingDeleteRemoteId] = useState<string | null>(
     null,
   );
@@ -179,7 +181,7 @@ export function SettingsServerSection({
 
   return (
     <SettingsSection
-      title="Server"
+      title={t("settings.server.title")}
       subtitle={
         isMobileSimplified
           ? "Configure TCP host/token from your desktop setup, then run a connection test."
@@ -335,8 +337,8 @@ export function SettingsServerSection({
 
         {!isMobileSimplified && (
           <SettingsToggleRow
-            title="Keep daemon running after app closes"
-            subtitle="If disabled, CodexMonitor stops managed TCP daemon processes before exit."
+            title={t("settings.server.daemonKeepAlive.title")}
+            subtitle={t("settings.server.daemonKeepAlive.subtitle")}
           >
             <SettingsToggleSwitch
               pressed={appSettings.keepDaemonRunningAfterAppClose}

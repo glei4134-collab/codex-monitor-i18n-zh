@@ -5,6 +5,7 @@ import {
   SettingsToggleSwitch,
 } from "@/features/design-system/components/settings/SettingsPrimitives";
 import { formatDownloadSize } from "@utils/formatting";
+import { useI18n } from "@/i18n/I18nProvider";
 
 type DictationModelOption = {
   id: string;
@@ -40,12 +41,13 @@ export function SettingsDictationSection({
   onCancelDictationDownload,
   onRemoveDictationModel,
 }: SettingsDictationSectionProps) {
+  const { t } = useI18n();
   const dictationProgress = dictationModelStatus?.progress ?? null;
 
   return (
     <SettingsSection
-      title="Dictation"
-      subtitle="Enable microphone dictation with on-device transcription."
+      title={t("settings.dictation.title")}
+      subtitle={t("settings.dictation.subtitle")}
     >
       <SettingsToggleRow
         title="Enable dictation"

@@ -1,5 +1,6 @@
 import type { Dispatch, SetStateAction } from "react";
 import { SettingsSection } from "@/features/design-system/components/settings/SettingsPrimitives";
+import { useI18n } from "@/i18n/I18nProvider";
 import type { WorkspaceInfo } from "@/types";
 import { pushErrorToast } from "@services/toasts";
 
@@ -44,14 +45,15 @@ export function SettingsEnvironmentsSection({
   onSetWorktreesFolderDraft,
   onSaveEnvironmentSetup,
 }: SettingsEnvironmentsSectionProps) {
+  const { t } = useI18n();
   const hasAnyChanges =
     environmentDirty || globalWorktreesFolderDirty || worktreesFolderDirty;
   const hasProjects = mainWorkspaces.length > 0;
 
   return (
     <SettingsSection
-      title="Environments"
-      subtitle="Configure per-project setup scripts and worktree locations."
+      title={t("settings.environments.title")}
+      subtitle={t("settings.environments.subtitle")}
     >
       <div className="settings-field">
         <label className="settings-field-label" htmlFor="settings-global-worktrees-folder">

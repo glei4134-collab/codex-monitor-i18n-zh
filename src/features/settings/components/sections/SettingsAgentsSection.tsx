@@ -13,6 +13,7 @@ import {
   SettingsToggleRow,
   SettingsToggleSwitch,
 } from "@/features/design-system/components/settings/SettingsPrimitives";
+import { useI18n } from "@/i18n/I18nProvider";
 
 const FALLBACK_AGENT_MODELS: ModelOption[] = [
   {
@@ -62,6 +63,7 @@ export function SettingsAgentsSection({
   modelOptionsLoading,
   modelOptionsError,
 }: SettingsAgentsSectionProps) {
+  const { t } = useI18n();
   const [openPathError, setOpenPathError] = useState<string | null>(null);
   const [maxThreadsDraft, setMaxThreadsDraft] = useState("6");
   const [maxDepthDraft, setMaxDepthDraft] = useState("1");
@@ -351,8 +353,8 @@ export function SettingsAgentsSection({
 
   return (
     <SettingsSection
-      title="Agents"
-      subtitle="Configure multi-agent mode, limits, and custom agent roles."
+      title={t("settings.agents.title")}
+      subtitle={t("settings.agents.subtitle")}
     >
       <div className="settings-help settings-agents-builtins-help">
         Built-in roles from Codex are still available: <code>default</code>, <code>explorer</code>,

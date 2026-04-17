@@ -5,6 +5,7 @@ import {
   SettingsToggleRow,
   SettingsToggleSwitch,
 } from "@/features/design-system/components/settings/SettingsPrimitives";
+import { useI18n } from "@/i18n/I18nProvider";
 import type { SettingsFeaturesSectionProps } from "@settings/hooks/useSettingsFeaturesSection";
 import { fileManagerName, openInFileManagerLabel } from "@utils/platformPaths";
 
@@ -93,14 +94,18 @@ export function SettingsFeaturesSection({
   onToggleCodexFeature,
   onUpdateAppSettings,
 }: SettingsFeaturesSectionProps) {
+  const { t } = useI18n();
+
   return (
     <SettingsSection
-      title="Features"
-      subtitle="Manage stable and experimental Codex features."
+      title={t("settings.features.title")}
+      subtitle={t("settings.features.subtitle")}
     >
       <SettingsToggleRow
-        title="Config file"
-        subtitle={`Open the Codex config in ${fileManagerName()}.`}
+        title={t("settings.features.configFile.title")}
+        subtitle={t("settings.features.configFile.subtitle", {
+          fileManager: fileManagerName(),
+        })}
       >
         <button type="button" className="ghost" onClick={onOpenConfig}>
           {openInFileManagerLabel()}
@@ -108,17 +113,12 @@ export function SettingsFeaturesSection({
       </SettingsToggleRow>
       {openConfigError && <div className="settings-help">{openConfigError}</div>}
       <SettingsSubsection
-        title="Stable Features"
-        subtitle="Production-ready features enabled by default."
+        title={t("settings.features.stable.title")}
+        subtitle={t("settings.features.stable.subtitle")}
       />
       <SettingsToggleRow
-        title="Personality"
-        subtitle={
-          <>
-            Choose Codex communication style (writes top-level <code>personality</code> in
-            config.toml).
-          </>
-        }
+        title={t("settings.features.personality.title")}
+        subtitle={t("settings.features.personality.subtitle")}
       >
         <select
           id="features-personality-select"
@@ -130,15 +130,15 @@ export function SettingsFeaturesSection({
               personality: event.target.value as (typeof appSettings)["personality"],
             })
           }
-          aria-label="Personality"
+          aria-label={t("settings.features.personality.aria")}
         >
-          <option value="friendly">Friendly</option>
-          <option value="pragmatic">Pragmatic</option>
+          <option value="friendly">{t("settings.features.personality.friendly")}</option>
+          <option value="pragmatic">{t("settings.features.personality.pragmatic")}</option>
         </select>
       </SettingsToggleRow>
       <SettingsToggleRow
-        title="Pause queued messages when a response is required"
-        subtitle="Keep queued messages paused while Codex is waiting for plan accept/changes or your answers."
+        title={t("settings.features.pauseQueued.title")}
+        subtitle={t("settings.features.pauseQueued.subtitle")}
       >
         <SettingsToggleSwitch
           pressed={appSettings.pauseQueuedMessagesWhenResponseRequired}
@@ -168,11 +168,11 @@ export function SettingsFeaturesSection({
         !featuresLoading &&
         !featureError &&
         stableFeatures.length === 0 && (
-        <div className="settings-help">No stable feature flags returned by Codex.</div>
+        <div className="settings-help">{t("settings.features.noneStable")}</div>
       )}
       <SettingsSubsection
-        title="Experimental Features"
-        subtitle="Preview and under-development features."
+        title={t("settings.features.experimental.title")}
+        subtitle={t("settings.features.experimental.subtitle")}
       />
       {experimentalFeatures.map((feature) => (
         <SettingsToggleRow
@@ -193,15 +193,15 @@ export function SettingsFeaturesSection({
         hasDynamicFeatureRows &&
         experimentalFeatures.length === 0 && (
           <div className="settings-help">
-            No preview or under-development feature flags returned by Codex.
+            {t("settings.features.noneExperimental")}
           </div>
         )}
       {featuresLoading && (
-        <div className="settings-help">Loading Codex feature flags...</div>
+        <div className="settings-help">{t("settings.features.loading")}</div>
       )}
       {!hasFeatureWorkspace && !featuresLoading && (
         <div className="settings-help">
-          Connect a workspace to load Codex feature flags.
+          {t("settings.features.connectWorkspace")}
         </div>
       )}
       {featureError && <div className="settings-help">{featureError}</div>}

@@ -11,6 +11,7 @@ import {
   SettingsToggleRow,
   SettingsToggleSwitch,
 } from "@/features/design-system/components/settings/SettingsPrimitives";
+import { useI18n } from "@/i18n/I18nProvider";
 
 type SettingsAboutSectionProps = {
   appSettings: AppSettings;
@@ -35,6 +36,7 @@ export function SettingsAboutSection({
   appSettings,
   onToggleAutomaticAppUpdateChecks,
 }: SettingsAboutSectionProps) {
+  const { t } = useI18n();
   const [appBuildType, setAppBuildType] = useState<AppBuildType | "unknown">("unknown");
   const [updaterEnabled, setUpdaterEnabled] = useState(false);
   const { state: updaterState, checkForUpdates, startUpdate } = useUpdater({
@@ -90,7 +92,7 @@ export function SettingsAboutSection({
     : new Date(parsedBuildDate).toLocaleString();
 
   return (
-    <SettingsSection title="About" subtitle="App version, build metadata, and update controls.">
+    <SettingsSection title={t("settings.about.title")} subtitle={t("settings.about.subtitle")}>
       <div className="settings-field">
         <div className="settings-help">
           Version: <code>{__APP_VERSION__}</code>

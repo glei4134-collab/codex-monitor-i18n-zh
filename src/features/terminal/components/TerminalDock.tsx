@@ -1,5 +1,6 @@
 import type { MouseEvent as ReactMouseEvent, ReactNode } from "react";
 import type { TerminalTab } from "../hooks/useTerminalTabs";
+import { useI18n } from "@/i18n/I18nProvider";
 
 type TerminalDockProps = {
   isOpen: boolean;
@@ -22,6 +23,7 @@ export function TerminalDock({
   onResizeStart,
   terminalNode,
 }: TerminalDockProps) {
+  const { t } = useI18n();
   if (!isOpen) {
     return null;
   }
@@ -68,8 +70,8 @@ export function TerminalDock({
             className="terminal-tab-add"
             type="button"
             onClick={onNewTerminal}
-            aria-label="New terminal"
-            title="New terminal"
+            aria-label={t("terminal.newTerminal")}
+            title={t("terminal.newTerminal")}
           >
             +
           </button>
