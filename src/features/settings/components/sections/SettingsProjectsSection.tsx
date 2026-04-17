@@ -7,7 +7,7 @@ import {
   SettingsSubsection,
 } from "@/features/design-system/components/settings/SettingsPrimitives";
 import type { WorkspaceGroup, WorkspaceInfo } from "@/types";
-C:\Users\17544\CodexMonitor\src-tauri\target\release\CodexMonitor.exe                                                                                                     import { useI18n } from "@/i18n/I18nProvider";
+import { useI18n } from "@/i18n/I18nProvider";
 
 type GroupedWorkspaces = Array<{
   id: string | null;
